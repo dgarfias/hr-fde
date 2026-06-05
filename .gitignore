@@ -1,0 +1,43 @@
+# Environment files with secrets
+.env
+.env.local
+.env.production
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+pip-log.txt
+
+# Node
+dashboard/node_modules/
+dashboard/dist/
+npm-debug.log*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Test coverage
+.coverage
+htmlcov/
+.pytest_cache/
+
+# Database
+*.db
+*.sqlite
