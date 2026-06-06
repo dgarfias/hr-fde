@@ -38,7 +38,7 @@ docker compose down
 Seed the demo loads after the containers are running:
 
 ```bash
-docker compose exec api python -c "from app.services.load_service import seed_loads; import asyncio; asyncio.run(seed_loads())"
+docker compose exec -T postgres psql -U happyrobot -d happyrobot < seed_data.sql
 ```
 
 You can verify the data with:
