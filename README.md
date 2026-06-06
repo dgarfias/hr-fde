@@ -18,8 +18,6 @@ Clone the repo, create your env file, and start the stack:
 ```bash
 cp .env.example .env
 # Edit .env and fill in your values (API keys, passwords, etc.)
-# Do NOT set VITE_API_URL unless you intentionally want a different API origin.
-# For same-origin deployments (local or tunnel), leave it blank or unset.
 
 docker compose up --build -d
 ```
@@ -49,7 +47,6 @@ Notes:
 
 - The dashboard service itself also runs a Vite dev server on `http://localhost:5173`
 - The API serves the built dashboard on `http://localhost:8000`
-- For same-origin access through a tunnel, leave `VITE_API_URL` blank in `.env`
 
 ### 3. Upload dummy data to the database
 

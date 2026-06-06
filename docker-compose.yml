@@ -46,7 +46,6 @@ services:
     container_name: hr-dashboard
     restart: unless-stopped
     environment:
-      - VITE_API_URL=${VITE_API_URL:-}
       - VITE_API_KEY=${VITE_API_KEY:-demo-key-change-me}
     ports:
       - "5173:5173"
