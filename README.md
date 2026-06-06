@@ -22,10 +22,7 @@ cp .env.example .env
 docker compose up --build -d
 ```
 
-The main app is served at:
-
-- `http://localhost:8000`
-- API docs: `http://localhost:8000/docs`
+The main app is served at `http://localhost:8000`.
 
 If you want to stop the stack:
 
@@ -33,22 +30,7 @@ If you want to stop the stack:
 docker compose down
 ```
 
-### 2. Build the dashboard assets
-
-The API serves the built dashboard from `dashboard/dist`. Build it once after starting the stack:
-
-```bash
-docker compose exec dashboard npm run build
-```
-
-Re-run this after any frontend code changes if you want the API-served dashboard to reflect them.
-
-Notes:
-
-- The dashboard service itself also runs a Vite dev server on `http://localhost:5173`
-- The API serves the built dashboard on `http://localhost:8000`
-
-### 3. Upload dummy data to the database
+### 2. Upload dummy data to the database
 
 Seed the demo loads after the containers are running:
 
@@ -62,7 +44,7 @@ You can verify the data with:
 docker compose exec postgres psql -U happyrobot -d happyrobot -c "SELECT load_id, origin, destination, equipment_type, loadboard_rate FROM loads ORDER BY created_at;"
 ```
 
-### 4. Start the Cloudflare Tunnel
+### 3. Start the Cloudflare Tunnel
 
 Install and authenticate `cloudflared` on the machine running Docker:
 
@@ -99,7 +81,7 @@ sudo systemctl enable --now cloudflared
 
 After that, your app is available over HTTPS at your Cloudflare hostname, while the app itself continues running locally on `http://localhost:8000`.
 
-### 5. Verify
+### 4. Verify
 
 ```bash
 # Local health check
