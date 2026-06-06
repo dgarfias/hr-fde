@@ -41,3 +41,4 @@ htmlcov/
 # Database
 *.db
 *.sqlite
+call_records_seed.sql
