@@ -17,11 +17,11 @@ services:
       timeout: 5s
       retries: 5
 
-  api:
+  app:
     build:
       context: .
       dockerfile: api/Dockerfile
-    container_name: hr-api
+    container_name: hr-app
     restart: unless-stopped
     env_file:
       - .env
