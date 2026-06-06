@@ -32,6 +32,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      dashboard:
+        condition: service_healthy
     volumes:
       - ./api:/app:ro
       - ./dashboard/dist:/dashboard/dist:ro
@@ -44,16 +46,19 @@ services:
     container_name: hr-dashboard
     restart: unless-stopped
     environment:
-      - VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+      - VITE_API_URL=${VITE_API_URL:-}
       - VITE_API_KEY=${VITE_API_KEY:-demo-key-change-me}
     ports:
       - "5173:5173"
-    depends_on:
-      - api
     volumes:
       - ./dashboard:/app
       - dashboard_node_modules:/app/node_modules
-    command: npm run dev -- --host
+    command: sh -c "npm run build && npm run dev -- --host"
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /app/dist/index.html"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
 
 volumes:
   postgres_data:

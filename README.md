@@ -3,9 +3,7 @@
 ## Technologies
 
 - FastAPI
-- React
-- TypeScript
-- Vite
+- React + TypeScript + Vite
 - Tailwind CSS
 - PostgreSQL
 - Docker Compose
@@ -19,6 +17,10 @@ Clone the repo, create your env file, and start the stack:
 
 ```bash
 cp .env.example .env
+# Edit .env and fill in your values (API keys, passwords, etc.)
+# Do NOT set VITE_API_URL unless you intentionally want a different API origin.
+# For same-origin deployments (local or tunnel), leave it blank or unset.
+
 docker compose up --build -d
 ```
 
@@ -33,7 +35,23 @@ If you want to stop the stack:
 docker compose down
 ```
 
-### 2. Upload dummy data to the database
+### 2. Build the dashboard assets
+
+The API serves the built dashboard from `dashboard/dist`. Build it once after starting the stack:
+
+```bash
+docker compose exec dashboard npm run build
+```
+
+Re-run this after any frontend code changes if you want the API-served dashboard to reflect them.
+
+Notes:
+
+- The dashboard service itself also runs a Vite dev server on `http://localhost:5173`
+- The API serves the built dashboard on `http://localhost:8000`
+- For same-origin access through a tunnel, leave `VITE_API_URL` blank in `.env`
+
+### 3. Upload dummy data to the database
 
 Seed the demo loads after the containers are running:
 
@@ -47,7 +65,7 @@ You can verify the data with:
 docker compose exec postgres psql -U happyrobot -d happyrobot -c "SELECT load_id, origin, destination, equipment_type, loadboard_rate FROM loads ORDER BY created_at;"
 ```
 
-### 3. Use Cloudflare Tunnel for HTTPS
+### 4. Start the Cloudflare Tunnel
 
 Install and authenticate `cloudflared` on the machine running Docker:
 
@@ -75,7 +93,7 @@ Run the tunnel:
 cloudflared tunnel run hr-carrier-sales
 ```
 
-Or install it as a service:
+Or install it as a persistent service (requires root):
 
 ```bash
 sudo cloudflared service install
@@ -83,3 +101,13 @@ sudo systemctl enable --now cloudflared
 ```
 
 After that, your app is available over HTTPS at your Cloudflare hostname, while the app itself continues running locally on `http://localhost:8000`.
+
+### 5. Verify
+
+```bash
+# Local health check
+curl http://localhost:8000/health
+
+# Public health check (replace with your hostname)
+curl https://your-subdomain.yourdomain.com/health
+```
